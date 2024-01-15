@@ -1,0 +1,207 @@
+## Markdown file with R code snippets
+
+## Install packages
+```{r install packages}
+install.packages("tidyverse")
+install.packages("skimr")
+install.packages("janitor")
+```
+
+## Load Libararies
+```{r load packages}
+library(tidyverse)
+library(skimr)
+library(janitor)
+```
+
+## Create Data Frames
+This creates data frames directly in R
+First, a vector of names
+```{r}
+names <- c("Bob", "Mike", "Amy", "Jesper")
+```
+
+Then a vector of ages
+```{r}
+age <- c(16, 18, 26, 23)
+```
+
+Combine those vectors to create a simple data frame
+```{r}
+people <- data.frame(names, age)
+```
+
+## Inspect the Data Frame
+Preview the data using the head or tail command.
+In this cases, the data set is small enough that either one will displace all of the data in the frame
+```{r}
+head(people)
+```
+
+```{r}
+tail(people)
+```
+
+Inspect the internal structure of the data frame using the str command
+```{r}
+str(people)
+```
+
+Inspect the columns and a preview of the data using the glimpse command
+```{r}
+glimpse(people)
+```
+
+Inspect the columns without looking at the data itself using the colnames command
+```{r}
+colnames(people)
+```
+
+## Make Alterations
+Use the mutate command to see the ages of all individuals in 20 years
+```{r}
+mutate(people, age_in_20 = age + 20)
+```
+
+## Repeat for New Data
+Follow the steps above to create a data frame about fruit
+
+First create the vectors
+```{r}
+names <- c("Apple", "Banana", "Grapefruit", "Pear", "Kiwi", "Tomato", "Pineapple", "Dragonfruit", "Strawberry", "Grape", "Cranberry", "Rasberry")
+```
+
+```{r}
+color <- c("Red", "Yellow", "Yellow", "Green", "Brown", "Red", "Brown", "Pink", "Red", "Purple", "Red", "Red")
+```
+
+```{r}
+rating <- c("5", "5", "4", "1", "3", "1", "4", "3", "1", "2", "3", "3")
+```
+
+Then combine vectors into a data frame
+```{r}
+fruit <- data.frame(names, color, rating)
+```
+
+Preview data frame
+```{r}
+glimpse(fruit)
+```
+
+
+## Import Data
+Import data from a csv file
+```{r}
+bookings_df <- read_csv("hotel_bookings.csv")
+```
+
+## Inspect and Clean Data
+Preview data
+```{r}
+head(bookings_df)
+```
+
+Create a new data frame based on average daily rate "adr"
+```{r}
+new_df <- select(bookings_df, `adr`, adults)
+```
+
+Make changes to the new data frame to find the adr without affecting the original data frame
+```{r}
+mutate(new_df, total = `adr` / adults)
+```
+
+
+## Make Changes to Data Frames
+Import data frame from csv file
+```{r load dataset}
+hotel_bookings <- read_csv("")
+```
+
+Inspect the data frame
+```{r head function}
+head()
+```
+
+Get a more detailed summary of data
+```{r}
+skim_without_charts(hotel_bookings)
+```
+
+Create a cleaner dataset by combining arrival month and year into one column
+```{r}
+combined_df <- hotel_bookings %>%
+  select(arrival_date_year, arrival_date_month) %>% 
+  unite(arrival_month_year, c("arrival_date_month", "arrival_date_year"), sep = " ")
+```
+
+Clean dataset to examine only what management is focused on
+```{r}
+trimmed_df <- combined_df %>% 
+  select(hotel_type, is_canceled, lead_time, arrival_month_year)
+```
+
+Rename hotel_type field to make it more clear
+```{r}
+trimmed_df %>% 
+  select(hotel, is_canceled, lead_time) %>% 
+  rename(hotel_type = hotel)
+```
+
+Arrange bookings by lead time in descending order
+```{r arrange function descending} 
+arrange(trimmed_df, desc(lead_time))
+```
+
+Inspect data frame to check changes
+```{r head function part two}
+head(trimmed_df)
+```
+
+Check max and min lead times
+```{r}
+max(trimmed_df$lead_time)
+```
+
+```{r}
+min(trimmed_df$lead_time)
+```
+
+Check average lead time for hotel bookings
+```{r mean}
+mean(trimmed_df$lead_time)
+```
+
+Filter data to City Hotels only
+```{r filter}
+hotel_bookings_city <- filter(trimmed_df, trimmed_df$hotel=="City Hotel")
+```
+
+Inspect data
+```{r new dataset}
+head(hotel_bookings_city)
+```
+
+Check average lead time on bookings for City Hotels only
+```{r average lead time city hotels}
+mean(hotel_bookings_city$lead_time)
+```
+
+Provide a summary of data by hotel including mean, min, and max lead times
+```{r group and summarize}
+hotel_summary <- 
+  trimmed_df %>%
+  group_by(hotel) %>%
+  summarise(average_lead_time=mean(lead_time),
+            min_lead_time=min(lead_time),
+            max_lead_time=max(lead_time))
+```
+
+Inspect the new data
+```{r}
+head(hotel_summary)
+```
+
+
+
