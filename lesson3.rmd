@@ -1,0 +1,87 @@
+## Markdown file with R code snippets
+
+## Install packages
+```{r}
+install.packages("tidyverse")
+```
+
+## Load Libararies
+```{r}
+library(tidyverse)
+```
+
+## Create Data Frames
+This creates data frames directly in R
+First, a vector of names
+```{r}
+names <- c("Bob", "Mike", "Amy", "Jesper")
+```
+
+Then a vector of ages
+```{r}
+age <- c(16, 18, 26, 23)
+```
+
+Combine those vectors to create a simple data frame
+```{r}
+people <- data.frame(names, age)
+```
+
+## Inspect the Data Frame
+Preview the data using the head or tail command.
+In this cases, the data set is small enough that either one will displace all of the data in the frame
+```{r}
+head(people)
+```
+
+```{r}
+tail(people)
+```
+
+Inspect the internal structure of the data frame using the str command
+```{r}
+str(people)
+```
+
+Inspect the columns and a preview of the data using the glimpse command
+```{r}
+glimpse(people)
+```
+
+Inspect the columns without looking at the data itself using the colnames command
+```{r}
+colnames(people)
+```
+
+## Make Alterations
+Use the mutate command to see the ages of all individuals in 20 years
+```{r}
+mutate(people, age_in_20 = age + 20)
+```
+
+## Repeat for New Data
+Follow the steps above to create a data frame about fruit
+
+First create the vectors
+```{r}
+names <- c("Apple", "Banana", "Grapefruit", "Pear", "Kiwi", "Tomato", "Pineapple", "Dragonfruit", "Strawberry", "Grape", "Cranberry", "Rasberry")
+```
+
+```{r}
+color <- c("Red", "Yellow", "Yellow", "Green", "Brown", "Red", "Brown", "Pink", "Red", "Purple", "Red", "Red")
+```
+
+```{r}
+rating <- c("5", "5", "4", "1", "3", "1", "4", "3", "1", "2", "3", "3")
+```
+
+Then combine vectors into a data frame
+```{r}
+fruit <- data.frame(names, color, rating)
+```
+
+Preview data frame
+```{r}
+glimpse(fruit)
+```
+
