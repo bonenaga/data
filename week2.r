@@ -11,9 +11,6 @@ head(diamonds)
 str(diamonds)
 glimpse(diamonds)
 
-# View column names from the "diamonds" dataset
-glimpse(diamonds)
-
 # Rename columns as part of the data cleaning process
 rename(diamonds, carat_new = carat)
 
